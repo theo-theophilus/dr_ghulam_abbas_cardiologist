@@ -1,24 +1,30 @@
-const menuButton = document.querySelector('.menu-button');
-const nav = document.querySelector('.nav');
+const menuButton = document.querySelector('.menu-toggle');
+const nav = document.querySelector('.primary-nav');
 
 menuButton?.addEventListener('click', () => {
-  const open = nav.classList.toggle('open');
-  menuButton.setAttribute('aria-expanded', String(open));
+  const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+  menuButton.setAttribute('aria-expanded', String(!isOpen));
+  menuButton.setAttribute('aria-label', isOpen ? 'Open navigation' : 'Close navigation');
+  nav?.classList.toggle('is-open', !isOpen);
 });
 
-document.querySelectorAll('.nav a').forEach(link => {
+nav?.querySelectorAll('a').forEach((link) => {
   link.addEventListener('click', () => {
-    nav.classList.remove('open');
     menuButton?.setAttribute('aria-expanded', 'false');
+    menuButton?.setAttribute('aria-label', 'Open navigation');
+    nav.classList.remove('is-open');
   });
 });
 
-const form = document.querySelector('#booking-form');
+const form = document.querySelector('#enquiry-form');
 const status = document.querySelector('.form-status');
-
-form?.addEventListener('submit', event => {
+form?.addEventListener('submit', (event) => {
   event.preventDefault();
-  const name = new FormData(form).get('name');
-  status.textContent = `Thank you, ${name}. Your appointment request has been received.`;
-  form.reset();
+  if (!form.reportValidity()) return;
+  if (status) {
+    status.textContent = 'This demo does not send your enquiry. Please contact the clinic directly once verified contact details are added.';
+  }
 });
+
+const year = document.querySelector('#current-year');
+if (year) year.textContent = new Date().getFullYear();
