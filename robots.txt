@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://theo-theophilus.github.io/dr_ghulam_abbas_cardiologist/sitemap.xml
